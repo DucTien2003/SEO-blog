@@ -1,26 +1,31 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 
-const { data } = await useAsyncData('home', () =>
-  queryContent('/blogs').sort({ _id: -1 }).find()
-);
+const urls = [
+  'https://cdn-qa.kiotproxy.com/files/blogs/mutable-imports.md',
+  'https://cdn-qa.kiotproxy.com/files/blogs/tidy-serverside-props.md',
+  'https://cdn-qa.kiotproxy.com/files/blogs/binary-search-in-javascript.md',
+  'https://cdn-qa.kiotproxy.com/files/blogs/using-async-await-the-right-way.md',
+];
 
-const elementPerPage = ref(4);
+const { markdownContents, metadatas, errors, isLoading } =
+  useFetchMarkdowns(urls);
+
+const elementPerPage = ref(3);
 const pageNumber = ref(1);
 
 const formattedData = computed(() => {
   return (
-    data.value?.map((articles) => {
+    metadatas.value?.map((articles) => {
       return {
-        path: articles._path,
+        path: '/blogs/' + articles.slug || 'no-path-available',
         title: articles.title || 'no-title available',
         description: articles.description || 'no-description available',
-        image: articles.image || '/not-found.jpg',
-        alt: articles.alt || 'no alter data available',
-        ogImage: articles.ogImage || '/not-found.jpg',
-        date: articles.date || 'not-date-available',
+        image: articles.image || '/blog.webp',
+        alt: articles.slug || 'no alter data available',
+        ogImage: articles.ogImage || '/blog.webp',
+        date: articles.pubDatetime || 'not-date-available',
         tags: articles.tags || [],
-        published: articles.published || false,
       };
     }) || []
   );
@@ -38,9 +43,9 @@ const paginatedData = computed(() => {
   );
 });
 
-function onPreviousPageClick() {
+const onPreviousPageClick = () => {
   if (pageNumber.value > 1) pageNumber.value -= 1;
-}
+};
 
 const totalPage = computed(() => {
   const ttlContent = formattedData.value.length || 0;
@@ -48,9 +53,9 @@ const totalPage = computed(() => {
   return totalPage;
 });
 
-function onNextPageClick() {
+const onNextPageClick = () => {
   if (pageNumber.value < totalPage.value) pageNumber.value += 1;
-}
+};
 
 useSeoMeta({
   title: 'Archive',
@@ -65,7 +70,9 @@ useSeoMeta({
 </script>
 
 <template>
-  <main class="container max-w-5xl mx-auto text-zinc-600">
+  <div v-if="isLoading">Loading...</div>
+
+  <main v-else class="container max-w-5xl mx-auto text-zinc-600">
     <div v-auto-animate class="space-y-5 my-5 px-4">
       <template v-for="post in paginatedData" :key="post.title">
         <ArchiveCard
@@ -77,7 +84,6 @@ useSeoMeta({
           :alt="post.alt"
           :og-image="post.ogImage"
           :tags="post.tags"
-          :published="post.published"
         />
       </template>
     </div>

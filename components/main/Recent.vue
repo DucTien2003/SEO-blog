@@ -13,23 +13,12 @@ const formattedData = computed(() => {
       image: articles.image || '/not-found.jpg',
       alt: articles.alt || 'no alter data available',
       ogImage: articles.ogImage || '/not-found.jpg',
-      date: articles.date || 'not-date-available',
+      date: 'not-date-available',
       tags: articles.tags || [],
       published: articles.published || false,
     };
   });
 });
-
-// useHead({
-//   title: 'Home',
-//   meta: [
-//     {
-//       name: 'description',
-//       content:
-//         'Welcome To My Blog Site. Get Web Development, Javascript, Typescript, NodeJs, Vue, and Nuxt, Related Articles, Tips, Learning resources and more.',
-//     },
-//   ],
-// })
 </script>
 
 <template>
@@ -41,7 +30,7 @@ const formattedData = computed(() => {
     <div class="grid grid-cols-3">
       <template v-for="post in formattedData" :key="post.title">
         <BlogCard
-          :path="post.path"
+          :path="post.path ?? ''"
           :title="post.title"
           :date="post.date"
           :description="post.description"
