@@ -1,0 +1,91 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+
+  *::-webkit-scrollbar {
+    border-radius: 0;
+    width: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+body {
+  font-family: 'Roboto', 'Poppins', Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.3;
+  text-rendering: optimizeSpeed;
+}
+
+a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    color: currentColor;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  display: block;
+}
+
+ul,
+li {
+  display: block;
+  list-style: none;
+
+  &,
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+input {
+  border: none;
+  outline: none;
+}
+
+h1 {
+  font-size: 2rem !important;
+}
+
+h2 {
+  font-size: 1.75rem !important;
+}
+
+h3 {
+  font-size: 1.5rem !important;
+}
+
+h4 {
+  font-size: 1.25rem !important;
+}
+
+h5 {
+  font-size: 1rem !important;
+}
+
+h6 {
+  font-size: 0.875rem !important;
+}
