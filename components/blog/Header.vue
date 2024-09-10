@@ -1,21 +1,14 @@
 <script setup lang="ts">
-interface Props {
-  title: string;
-  image: string;
-  alt: string;
-  description: string;
-  date: string;
-  tags: Array<string>;
-}
-
-withDefaults(defineProps<Props>(), {
-  title: 'no-title',
-  image: '#',
-  alt: 'no-img',
-  description: 'no description',
-  date: 'no-date',
-  tags: () => [],
+const props = defineProps({
+  title: String,
+  image: String,
+  alt: String,
+  description: String,
+  date: String,
+  tags: Array,
 });
+
+console.log(props);
 </script>
 
 <template>

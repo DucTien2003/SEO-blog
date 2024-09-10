@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
+import { handleMarkdown } from '~/utils';
 
 const urls = [
   'https://cdn-qa.kiotproxy.com/files/blogs/mutable-imports.md',
@@ -8,15 +9,28 @@ const urls = [
   'https://cdn-qa.kiotproxy.com/files/blogs/using-async-await-the-right-way.md',
 ];
 
-const { markdownContents, metadatas, errors, isLoading } =
-  useFetchMarkdowns(urls);
+const metadatas = ref<any>([]);
+const contentHtml = ref<string[]>([]);
+
+onMounted(async () => {
+  const promises = urls.map((url) => $fetch(url));
+  const responses = await Promise.all(promises);
+
+  console.log(responses);
+
+  responses.map(async (response: any) => {
+    const { html, metadata } = await handleMarkdown(response);
+    contentHtml.value.push(html);
+    metadatas.value.push(metadata);
+  });
+});
 
 const elementPerPage = ref(3);
 const pageNumber = ref(1);
 
 const formattedData = computed(() => {
   return (
-    metadatas.value?.map((articles) => {
+    metadatas.value?.map((articles: any) => {
       return {
         path: '/blogs/' + articles.slug || 'no-path-available',
         title: articles.title || 'no-title available',
@@ -33,7 +47,7 @@ const formattedData = computed(() => {
 
 const paginatedData = computed(() => {
   return (
-    formattedData.value.filter((data, idx) => {
+    formattedData.value.filter((data: any, idx: number) => {
       const startInd = (pageNumber.value - 1) * elementPerPage.value;
       const endInd = pageNumber.value * elementPerPage.value - 1;
 
@@ -70,10 +84,8 @@ useSeoMeta({
 </script>
 
 <template>
-  <div v-if="isLoading">Loading...</div>
-
-  <main v-else class="container max-w-5xl mx-auto text-zinc-600">
-    <div v-auto-animate class="space-y-5 my-5 px-4">
+  <main class="container max-w-5xl mx-auto text-zinc-600">
+    <div class="space-y-5 my-5 px-4">
       <template v-for="post in paginatedData" :key="post.title">
         <ArchiveCard
           :path="post.path"

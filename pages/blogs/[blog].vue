@@ -1,76 +1,70 @@
 <script setup lang="ts">
-import type { BlogPost } from '~/types/blog';
 import { useRoute } from 'vue-router';
-import { ref, computed, watchEffect } from 'vue';
+import { ref, computed } from 'vue';
 
 const route = useRoute();
 const nameBlog = route.params.blog;
 
 const urls = [`https://cdn-qa.kiotproxy.com/files/blogs/${nameBlog}.md`];
 
-const { markdownContents, metadatas, errors, isLoading } =
-  useFetchMarkdowns(urls);
+const metadatas = ref<any>([]);
+const contentHtml = ref<string[]>([]);
 
-const data = ref<BlogPost>({
-  path: '',
-  title: 'no-title available',
-  description: 'no-description available',
-  image: '/blog.webp',
-  alt: 'no alter data available',
-  ogImage: '/blog.webp',
-  date: 'not-date-available',
-  tags: [],
-  published: true,
+onMounted(async () => {
+  const promises = urls.map((url) => $fetch(url));
+  const responses = await Promise.all(promises);
+
+  responses.map(async (response: any) => {
+    const { html, metadata } = await handleMarkdown(response);
+    contentHtml.value.push(html);
+    metadatas.value.push(metadata);
+  });
 });
 
-watchEffect(() => {
-  if (!isLoading.value && metadatas.value.length > 0) {
-    data.value = {
-      path: '/blogs/' + metadatas.value[0]?.slug,
-      title: metadatas.value[0]?.title || 'no-title available',
-      description:
-        metadatas.value[0]?.description || 'no-description available',
-      image: metadatas.value[0]?.image || '/blog.webp',
-      alt: metadatas.value[0]?.slug || 'no alter data available',
-      ogImage: metadatas.value[0]?.ogImage || '/blog.webp',
-      date: metadatas.value[0]?.pubDatetime || 'not-date-available',
-      tags: metadatas.value[0]?.tags || [],
+const formattedData = computed(() => {
+  return metadatas.value?.map((articles: any) => {
+    return {
+      path: '/blogs/' + articles?.slug,
+      title: articles?.title || 'no-title available',
+      description: articles?.description || 'no-description available',
+      image: articles?.image || '/blog.webp',
+      alt: articles?.slug || 'no alter formattedData available',
+      ogImage: articles?.ogImage || '/blog.webp',
+      date: articles?.pubDatetime || 'not-date-available',
+      tags: articles?.tags || [],
       published: true,
     };
-  }
+  });
 });
 
 useSeoMeta({
-  title: computed(() => data.value.title),
-  ogTitle: computed(() => data.value.title),
-  description: computed(() => data.value.description),
-  ogDescription: computed(() => data.value.description),
+  title: computed(() => formattedData.value.title),
+  ogTitle: computed(() => formattedData.value.title),
+  description: computed(() => formattedData.value.description),
+  ogDescription: computed(() => formattedData.value.description),
   ogImage: '/blog.webp',
   keywords: 'blog, posts, archive, writing, published',
 });
 </script>
 
 <template>
-  <div v-if="isLoading">Loading...</div>
-
   <div
-    v-else
     class="px-6 container max-w-5xl mx-auto sm:grid grid-cols-12 gap-x-12 pb-10"
   >
-    <div class="col-span-12 lg:col-span-9">
+    <div class="col-span-12 lg:col-span-9" v-if="formattedData.length > 0">
       <BlogHeader
-        :title="data.title"
-        :image="data.image"
-        :alt="data.alt"
-        :date="data.date"
-        :description="data.description"
-        :tags="data.tags"
+        :title="formattedData[0].title"
+        :image="formattedData[0].image"
+        :alt="formattedData[0].alt"
+        :date="formattedData[0].date"
+        :description="formattedData[0].description"
+        :tags="formattedData[0].tags"
       />
       <div
         class="prose prose-pre:max-w-xs sm:prose-pre:max-w-full prose-sm sm:prose-base md:prose-lg prose-h1:no-underline max-w-5xl mx-auto prose-zinc dark:prose-invert prose-img:rounded-lg"
       >
         <div
-          v-for="(content, index) in markdownContents"
+          v-for="(content, index) in contentHtml"
           :key="index"
           v-html="content"
         ></div>

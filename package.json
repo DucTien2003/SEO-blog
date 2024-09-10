@@ -14,15 +14,14 @@
     "@nuxt/image": "^1.8.0",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@pinia/nuxt": "^0.5.4",
-    "front-matter": "^4.0.2",
-    "gray-matter": "^4.0.3",
-    "marked": "^14.1.2",
     "nuxt": "^3.13.0",
     "pinia": "^2.2.2",
+    "showdown": "^2.1.0",
     "vue": "latest",
     "vue-router": "latest"
   },
   "devDependencies": {
+    "@types/showdown": "^2.0.6",
     "sass": "^1.78.0"
   }
 }
