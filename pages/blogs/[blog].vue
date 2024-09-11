@@ -32,7 +32,6 @@ const formattedData = computed(() => {
       ogImage: articles?.ogImage || '/blog.webp',
       date: articles?.pubDatetime || 'not-date-available',
       tags: articles?.tags || [],
-      published: true,
     };
   });
 });

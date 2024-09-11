@@ -9,4 +9,9 @@ export default defineNuxtConfig({
     '@nuxt/content',
     '@nuxt/image',
   ],
+  vite: {
+    optimizeDeps: {
+      include: ['@ckeditor/ckeditor5-vue'],
+    },
+  },
 });

@@ -1,0 +1,49 @@
+Tạo bài viết:
+curl -X 'POST' \
+  'https://api-qa.kiotproxy.com/api/blogs' \
+  -H 'accept: */*' \
+  -H 'Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJzdXBlcmFkbWluIiwidXNlcl9pZCI6ImM4ZTgwMDA0LWE0NDktNGI5NC1hNTY2LTZmZmY2Y2U1MmI0NCIsImlhdCI6MTcyNTk0Mzc3MSwiZXhwIjoxNzI2MDMwMTcxfQ.xvBUUprtOvWRc_XHM95LroegKB-MPAXWlNz8eMBsTp79i07y0FYgaFaPTLEwlQR4XfvkvN6GR-w4T49SuWAhgIJDvxWhUUFsFzKlTrelnBmmqXnsTiSFQFagOgGrG1CQQ_cQZmxJltqkOROPTmbO64oOoo_GDW-FJpymKauHSIlxHPzh8SlgoEpMOx0DJ329uJYrHgtdVxzptS536F9iW_UmwOj1H5zVIIQx_02C9mAJLJATTr9vYE4lypFUgpLmdZuLRVeKMxzMiwbmX33P5Df86i_ejiLwhc3-7JkNmSXOHWDg9CHGQ2MrSL34OB4KAoHuSZrNfN4j_geVOnc5Aw' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "title": "tên bài viết",
+  "code": "ma_bai_viet",
+  "content": "string",
+  "fileId": "998969b1-8ed8-440b-acf3-b688e67e5e98",
+  "description": "string"
+}'
+
+
+danh sách bài viết:
+curl -X 'GET' \
+  'https://api-qa.kiotproxy.com/api/blogs?keyword=&pageIndex=1&pageSize=200' \
+  -H 'accept: */*' \
+  -H 'Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJzdXBlcmFkbWluIiwidXNlcl9pZCI6ImM4ZTgwMDA0LWE0NDktNGI5NC1hNTY2LTZmZmY2Y2U1MmI0NCIsImlhdCI6MTcyNTk0Mzc3MSwiZXhwIjoxNzI2MDMwMTcxfQ.xvBUUprtOvWRc_XHM95LroegKB-MPAXWlNz8eMBsTp79i07y0FYgaFaPTLEwlQR4XfvkvN6GR-w4T49SuWAhgIJDvxWhUUFsFzKlTrelnBmmqXnsTiSFQFagOgGrG1CQQ_cQZmxJltqkOROPTmbO64oOoo_GDW-FJpymKauHSIlxHPzh8SlgoEpMOx0DJ329uJYrHgtdVxzptS536F9iW_UmwOj1H5zVIIQx_02C9mAJLJATTr9vYE4lypFUgpLmdZuLRVeKMxzMiwbmX33P5Df86i_ejiLwhc3-7JkNmSXOHWDg9CHGQ2MrSL34OB4KAoHuSZrNfN4j_geVOnc5Aw'
+
+
+xem chi tiết bài viết:
+curl -X 'GET' \
+  'https://api-qa.kiotproxy.com/api/blogs/128195b7-2143-49cc-975d-78463704513f' \
+  -H 'accept: */*' \
+  -H 'Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJzdXBlcmFkbWluIiwidXNlcl9pZCI6ImM4ZTgwMDA0LWE0NDktNGI5NC1hNTY2LTZmZmY2Y2U1MmI0NCIsImlhdCI6MTcyNTk0Mzc3MSwiZXhwIjoxNzI2MDMwMTcxfQ.xvBUUprtOvWRc_XHM95LroegKB-MPAXWlNz8eMBsTp79i07y0FYgaFaPTLEwlQR4XfvkvN6GR-w4T49SuWAhgIJDvxWhUUFsFzKlTrelnBmmqXnsTiSFQFagOgGrG1CQQ_cQZmxJltqkOROPTmbO64oOoo_GDW-FJpymKauHSIlxHPzh8SlgoEpMOx0DJ329uJYrHgtdVxzptS536F9iW_UmwOj1H5zVIIQx_02C9mAJLJATTr9vYE4lypFUgpLmdZuLRVeKMxzMiwbmX33P5Df86i_ejiLwhc3-7JkNmSXOHWDg9CHGQ2MrSL34OB4KAoHuSZrNfN4j_geVOnc5Aw'
+
+update bài viết:
+curl -X 'POST' \
+  'https://api-qa.kiotproxy.com/api/blogs/128195b7-2143-49cc-975d-78463704513f/update' \
+  -H 'accept: */*' \
+  -H 'Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJzdXBlcmFkbWluIiwidXNlcl9pZCI6ImM4ZTgwMDA0LWE0NDktNGI5NC1hNTY2LTZmZmY2Y2U1MmI0NCIsImlhdCI6MTcyNTk0Mzc3MSwiZXhwIjoxNzI2MDMwMTcxfQ.xvBUUprtOvWRc_XHM95LroegKB-MPAXWlNz8eMBsTp79i07y0FYgaFaPTLEwlQR4XfvkvN6GR-w4T49SuWAhgIJDvxWhUUFsFzKlTrelnBmmqXnsTiSFQFagOgGrG1CQQ_cQZmxJltqkOROPTmbO64oOoo_GDW-FJpymKauHSIlxHPzh8SlgoEpMOx0DJ329uJYrHgtdVxzptS536F9iW_UmwOj1H5zVIIQx_02C9mAJLJATTr9vYE4lypFUgpLmdZuLRVeKMxzMiwbmX33P5Df86i_ejiLwhc3-7JkNmSXOHWDg9CHGQ2MrSL34OB4KAoHuSZrNfN4j_geVOnc5Aw' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "title": "tên bài viết",
+  "code": "ma_bai_viet",
+  "content": "string",
+  "fileId": "998969b1-8ed8-440b-acf3-b688e67e5e98",
+  "description": "string"
+}'
+
+
+xóa bài viết:
+curl -X 'POST' \
+  'https://api-qa.kiotproxy.com/api/blogs/128195b7-2143-49cc-975d-78463704513f/delete' \
+  -H 'accept: */*' \
+  -H 'Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJzdXBlcmFkbWluIiwidXNlcl9pZCI6ImM4ZTgwMDA0LWE0NDktNGI5NC1hNTY2LTZmZmY2Y2U1MmI0NCIsImlhdCI6MTcyNTk0Mzc3MSwiZXhwIjoxNzI2MDMwMTcxfQ.xvBUUprtOvWRc_XHM95LroegKB-MPAXWlNz8eMBsTp79i07y0FYgaFaPTLEwlQR4XfvkvN6GR-w4T49SuWAhgIJDvxWhUUFsFzKlTrelnBmmqXnsTiSFQFagOgGrG1CQQ_cQZmxJltqkOROPTmbO64oOoo_GDW-FJpymKauHSIlxHPzh8SlgoEpMOx0DJ329uJYrHgtdVxzptS536F9iW_UmwOj1H5zVIIQx_02C9mAJLJATTr9vYE4lypFUgpLmdZuLRVeKMxzMiwbmX33P5Df86i_ejiLwhc3-7JkNmSXOHWDg9CHGQ2MrSL34OB4KAoHuSZrNfN4j_geVOnc5Aw' \
+  -d ''

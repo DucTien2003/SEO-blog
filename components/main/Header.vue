@@ -15,6 +15,9 @@
         <li class="hover:underline">
           <NuxtLink to="/blogs">Blogs</NuxtLink>
         </li>
+        <li class="hover:underline">
+          <NuxtLink to="/my-blog">My Blog</NuxtLink>
+        </li>
       </ul>
     </div>
   </div>

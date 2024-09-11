@@ -16,17 +16,12 @@ onMounted(async () => {
   const promises = urls.map((url) => $fetch(url));
   const responses = await Promise.all(promises);
 
-  console.log(responses);
-
   responses.map(async (response: any) => {
     const { html, metadata } = await handleMarkdown(response);
     contentHtml.value.push(html);
     metadatas.value.push(metadata);
   });
 });
-
-const elementPerPage = ref(3);
-const pageNumber = ref(1);
 
 const formattedData = computed(() => {
   return (
@@ -44,6 +39,9 @@ const formattedData = computed(() => {
     }) || []
   );
 });
+
+const elementPerPage = ref(3);
+const pageNumber = ref(1);
 
 const paginatedData = computed(() => {
   return (

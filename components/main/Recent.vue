@@ -1,23 +1,40 @@
 <script lang="ts" setup>
-// Get Last 6 Publish Post from the content/blog directory
-const { data } = await useAsyncData('recent-post', () =>
-  queryContent('/blogs').limit(3).sort({ _id: -1 }).find()
-);
+const urls = [
+  'https://cdn-qa.kiotproxy.com/files/blogs/mutable-imports.md',
+  'https://cdn-qa.kiotproxy.com/files/blogs/tidy-serverside-props.md',
+  'https://cdn-qa.kiotproxy.com/files/blogs/binary-search-in-javascript.md',
+  'https://cdn-qa.kiotproxy.com/files/blogs/using-async-await-the-right-way.md',
+];
+
+const metadatas = ref<any>([]);
+const contentHtml = ref<string[]>([]);
+
+onMounted(async () => {
+  const promises = urls.map((url) => $fetch(url));
+  const responses = await Promise.all(promises);
+
+  responses.map(async (response: any) => {
+    const { html, metadata } = await handleMarkdown(response);
+    contentHtml.value.push(html);
+    metadatas.value.push(metadata);
+  });
+});
 
 const formattedData = computed(() => {
-  return data.value?.map((articles) => {
-    return {
-      path: articles._path,
-      title: articles.title || 'no-title available',
-      description: articles.description || 'no-description available',
-      image: articles.image || '/not-found.jpg',
-      alt: articles.alt || 'no alter data available',
-      ogImage: articles.ogImage || '/not-found.jpg',
-      date: 'not-date-available',
-      tags: articles.tags || [],
-      published: articles.published || false,
-    };
-  });
+  return (
+    metadatas.value?.map((articles: any) => {
+      return {
+        path: '/blogs/' + articles.slug || 'no-path-available',
+        title: articles.title || 'no-title available',
+        description: articles.description || 'no-description available',
+        image: articles.image || '/blog.webp',
+        alt: articles.slug || 'no alter data available',
+        ogImage: articles.ogImage || '/blog.webp',
+        date: articles.pubDatetime || 'not-date-available',
+        tags: articles.tags || [],
+      };
+    }) || []
+  );
 });
 </script>
 
@@ -38,7 +55,6 @@ const formattedData = computed(() => {
           :alt="post.alt"
           :og-image="post.ogImage"
           :tags="post.tags"
-          :published="post.published"
         />
       </template>
     </div>

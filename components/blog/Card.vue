@@ -8,7 +8,6 @@ interface Props {
   alt: string;
   ogImage: string;
   tags: Array<string>;
-  published: boolean;
 }
 
 withDefaults(defineProps<Props>(), {
@@ -20,7 +19,6 @@ withDefaults(defineProps<Props>(), {
   alt: 'no-alt',
   ogImage: '/blogs-img/blog.jpg',
   tags: () => [],
-  published: false,
 });
 </script>
 
